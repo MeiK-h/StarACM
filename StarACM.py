@@ -4,6 +4,7 @@ import os
 from spiders.SDUT import main as SDUT
 from spiders.POJ import main as POJ
 from spiders.HDU import main as HDU
+from spiders.CodeForces import main as CodeForces
 
 
 def main():
@@ -30,12 +31,12 @@ def main():
         with open(os.path.join('result', 'HDU.json'), 'w') as fw:
             fw.write(json.dumps(hdu_data, indent=4, ensure_ascii=False))
         print('HDU 获取完成')
-    # if data.get('CodeForces'):
-    #     print('开始获取 CodeForces')
-    #     cf_data = CodeForces(data['CodeForces'])
-    #     with open(os.path.join('result', 'CodeForces.json'), 'w') as fw:
-    #         fw.write(json.dumps(cf_data, indent=4, ensure_ascii=False))
-    #     print('CodeForces 获取完成')
+    if data.get('CodeForces'):
+        print('开始获取 CodeForces')
+        cf_data = CodeForces(data['CodeForces'])
+        with open(os.path.join('result', 'CodeForces.json'), 'w') as fw:
+            fw.write(json.dumps(cf_data, indent=4, ensure_ascii=False))
+        print('CodeForces 获取完成')
     # if data.get('Virtual Judge'):
     #     print('开始获取 Virtual Judge')
     #     vj_data = VirtualJudge(data['Virtual Judge'])
