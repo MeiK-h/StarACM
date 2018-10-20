@@ -79,7 +79,10 @@ def main(username, password, last=0):
             submit_time = time.strftime(
                 "%Y-%m-%d %H:%M:%S", time.localtime(i['timestamp']))
             result = result_fix(i['status_display'])
-            time_used = i['runtime'][:-2]
+            if result == 'Accepted':
+                time_used = i['runtime'][:-2]
+            else:
+                time_used = 0
             language = language_fix(i['lang'])
             return_data.append({
                 'runid': runid,
