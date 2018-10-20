@@ -1,11 +1,13 @@
 import json
 import os
 
-from spiders.SDUT import main as SDUT
-from spiders.POJ import main as POJ
-from spiders.HDU import main as HDU
+from jinja2 import Environment, PackageLoader
+
 from spiders.CodeForces import main as CodeForces
+from spiders.HDU import main as HDU
 from spiders.LeetCodeCN import main as LeetCodeCN
+from spiders.POJ import main as POJ
+from spiders.SDUT import main as SDUT
 
 
 def main():
@@ -47,5 +49,26 @@ def main():
         print('LeetCode-CN 获取完成')
 
 
+def make_html():
+    print('开始生成页面')
+    env = Environment(loader=PackageLoader('StarACM', 'templates'))
+    template = env.get_template('heatmap.html')
+
+    dir_list = os.listdir('result')
+    all_data = []
+    heatmap_data = []
+    for data_file in dir_list:
+        with open(os.path.join('result', data_file)) as fr:
+            data = json.loads(fr.read())
+        for i in data:
+            if i['result'] == 'Accepted':
+                heatmap_data.append(i['submission_time'])
+        all_data.append(data)
+    with open(os.path.join('html', 'heatmap.html'), 'w') as fw:
+        fw.write(template.render(data=heatmap_data))
+    print('页面生成完成')
+
+
 if __name__ == '__main__':
     main()
+    make_html()

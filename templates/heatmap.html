@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js" charset="utf-8"></script>
+    <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+    <script src="../calendar-heatmap/calendar-heatmap.js"></script>
+    <link rel="stylesheet" href="../calendar-heatmap/calendar-heatmap.css">
+</head>
+
+<body>
+    <div class="container"></div>
+    输入年份: <input type="number" id="year"><button onclick="render_year()">查看</button>
+    <button onclick="render()">默认</button>
+    <script type="text/javascript">
+        let chartData = [{% for i in data %}{ date: new Date("{{i}}"), count: 1 }, {% endfor %}];
+        function render(date = null) {
+            let heatmap = calendarHeatmap()
+                .data(chartData)
+                .max(4)
+                .selector('.container')
+                .tooltipEnabled(true)
+                .tooltipUnit(
+                    [
+                        { min: 0, unit: 'contribution' },
+                        { min: 1, max: 1, unit: 'contribution' },
+                        { min: 2, max: 'Infinity', unit: 'contributions' }
+                    ]
+                )
+                .colorRange(['#ebedf0', '#239a3b'])
+                .onClick(function (data) {
+                    console.log('data', data);
+                });
+            if (date) {
+                heatmap = heatmap.startDate(date);
+            }
+            heatmap();
+        }
+        render(null);
+        function render_year() {
+            render(new Date(Number(document.getElementById('year').value), 0, 1))
+        }
+    </script>
+</body>
+
+</html>
