@@ -75,7 +75,6 @@ def main(username):
         time_used = str(i['timeConsumedMillis'])
         memory = str(i['memoryConsumedBytes'] // 1024)
         result = result_fix(i['verdict'])
-        print(run_id, creation_time, language, time_used, memory, result)
         return_data.append({
             'runid': run_id,
             'pid': pid,
