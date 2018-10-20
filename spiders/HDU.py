@@ -38,9 +38,8 @@ def language_fix(language):
     return 'Other'
 
 
-def main(username):
+def main(username, last=0):
     return_data = []
-    last = 0
     cnt = 0
 
     while cnt < 300:  # VJ 的那几个账号不考虑

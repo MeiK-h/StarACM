@@ -58,10 +58,10 @@ def result_fix(result):
     return 'Other'
 
 
-def main(username):
+def main(username, last=1):
     # CodeForces 提供 API
-    url = 'http://codeforces.com/api/user.status?handle={}&from=1'.format(
-        username)
+    url = 'http://codeforces.com/api/user.status?handle={}&from={}'.format(
+        username, last)
     req = requests.get(url)
     data = json.loads(req.text)
     return_data = []

@@ -37,10 +37,9 @@ def language_fix(language):
     return 'Other'
 
 
-def main(username):
+def main(username, bottom=0):
     return_data = []
     cnt = 0
-    bottom = 0
 
     while cnt < 200:  # 每页 20 条，排行榜第一名现在不到 4000 条
         url = 'http://poj.org/status?user_id={}&bottom={}'.format(

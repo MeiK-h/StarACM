@@ -5,6 +5,7 @@ from spiders.SDUT import main as SDUT
 from spiders.POJ import main as POJ
 from spiders.HDU import main as HDU
 from spiders.CodeForces import main as CodeForces
+from spiders.LeetCodeCN import main as LeetCodeCN
 
 
 def main():
@@ -37,18 +38,13 @@ def main():
         with open(os.path.join('result', 'CodeForces.json'), 'w') as fw:
             fw.write(json.dumps(cf_data, indent=4, ensure_ascii=False))
         print('CodeForces 获取完成')
-    # if data.get('Virtual Judge'):
-    #     print('开始获取 Virtual Judge')
-    #     vj_data = VirtualJudge(data['Virtual Judge'])
-    #     with open(os.path.join('result', 'Virtual-Judge.json'), 'w') as fw:
-    #         fw.write(json.dumps(vj_data, indent=4, ensure_ascii=False))
-    #     print('Virtual Judge 获取完成')
-    # if data.get('LeetCode-CN'):
-    #     print('开始获取 LeetCode-CN')
-    #     leetcode_cn_data = LeetCodeCN(data['LeetCode-CN'])
-    #     with open(os.path.join('result', 'LeetCode-CN.json'), 'w') as fw:
-    #         fw.write(json.dumps(leetcode_cn_data, indent=4, ensure_ascii=False))
-    #     print('LeetCode-CN 获取完成')
+    if data.get('LeetCode-CN'):
+        print('开始获取 LeetCode-CN')
+        leetcode_cn_data = LeetCodeCN(
+            data['LeetCode-CN']['username'], data['LeetCode-CN']['password'])
+        with open(os.path.join('result', 'LeetCode-CN.json'), 'w') as fw:
+            fw.write(json.dumps(leetcode_cn_data, indent=4, ensure_ascii=False))
+        print('LeetCode-CN 获取完成')
 
 
 if __name__ == '__main__':
