@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js" charset="utf-8"></script>
+    <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+    <script src="../calendar-heatmap/calendar-heatmap.js"></script>
+    <link rel="stylesheet" href="../calendar-heatmap/calendar-heatmap.css">
+</head>
+
+<body>
+    <div class="container"></div>
+    <script type="text/javascript">
+        let chartData = [
+            {
+                date: new Date(),
+                count: 1
+            }
+        ];
+        let heatmap = calendarHeatmap()
+            .data(chartData)
+            .max(4)
+            .selector('.container')
+            .tooltipEnabled(true)
+            .tooltipUnit(
+                [
+                    { min: 0, unit: 'contribution' },
+                    { min: 1, max: 1, unit: 'contribution' },
+                    { min: 2, max: 'Infinity', unit: 'contributions' }
+                ]
+            )
+            .colorRange(['#ebedf0', '#239a3b'])
+            .onClick(function (data) {
+                console.log('data', data);
+            });
+        heatmap();
+    </script>
+</body>
+
+</html>
