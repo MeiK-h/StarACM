@@ -1,0 +1,13 @@
+[
+    "Accepted",
+    "Wrong Answer",
+    "Presentation Error",
+    "Compile Error",
+    "Time Limit Exceeded",
+    "Memory Limit Exceeded",
+    "Output Limit Exceeded",
+    "Runtime Error",
+    "System Error",
+    "Judging",
+    "Other"
+]
