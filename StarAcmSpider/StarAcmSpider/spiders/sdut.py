@@ -1,19 +1,29 @@
 # -*- coding: utf-8 -*-
 import scrapy
 import json
-from StarAcmSpider.models import Language, Result
+from StarAcmSpider.models import Language, Result, get_session, Last
+from StarAcmSpider.pipelines import update_last
 from datetime import datetime
 
 
 class SdutSpider(scrapy.Spider):
     name = 'sdut'
     allowed_domains = ['acm.sdut.edu.cn']
-    start_urls = [
-        'https://acm.sdut.edu.cn/onlinejudge2/index.php/API/Solution?limit=1000&order=ASC&runid=0&cmp=g']
+
+    def start_requests(self):
+        self.session = get_session()
+        last = self.session.query(Last).filter_by(source='sdut').all()
+        if last:
+            self.last = last[0].last
+        else:
+            self.last = 0
+        self.logger.info(f'Spider crawl start on {self.last}')
+        yield scrapy.Request(
+            f'https://acm.sdut.edu.cn/onlinejudge2/index.php/API/Solution?limit=1000&order=ASC&runid={self.last}&cmp=g')
 
     def parse(self, response):
         json_response = json.loads(response.body_as_unicode())
-        last = None
+        this_last = None
 
         for item in json_response:
             item['source'] = 'sdut'
@@ -31,11 +41,16 @@ class SdutSpider(scrapy.Spider):
             item['submission_time'] = datetime.strptime(
                 item['submission_time'], '%Y-%m-%d %H:%M:%S')
 
-            last = item['run_id']
+            this_last = item['run_id']
+            self.last = this_last
             yield item
 
-        if last:
-            yield scrapy.Request(url=f'https://acm.sdut.edu.cn/onlinejudge2/index.php/API/Solution?limit=1000&order=ASC&runid={last}&cmp=g')
+        if this_last:
+            yield scrapy.Request(url=f'https://acm.sdut.edu.cn/onlinejudge2/index.php/API/Solution?limit=1000&order=ASC&runid={this_last}&cmp=g')
+
+    def closed(self, reason):
+        self.logger.info(f'save last {self.last} to database')
+        update_last(self.session, 'sdut', self.last)
 
 
 def conver_language(sdut_language):

@@ -66,6 +66,15 @@ class Solution(Base):
     submission_time = Column(DateTime)  # like '2015-10-10 18:25:33'
 
 
+class Last(Base):
+    __tablename__ = 'lasts'
+
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    source = Column(String(64))
+    last = Column(Integer)
+    extra = Column(String(64))
+
+
 def create_table():
     Base.metadata.create_all(engine)
 
