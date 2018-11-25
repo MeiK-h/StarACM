@@ -1,8 +1,12 @@
 from enum import Enum
 
-from sqlalchemy import Column, Date, DateTime, Integer, String
+from sqlalchemy import Column, Date, DateTime, Integer, String, create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
-from StarAcmSpider.db import Base
+engine = create_engine('mysql+mysqldb://root:123456@localhost/test?charset=utf8')
+
+Base = declarative_base()
 
 
 class Result(Enum):
@@ -50,7 +54,7 @@ class Solution(Base):
     run_id = Column(String(64), primary_key=True)
     username = Column(String(64), index=True)
 
-    problem_id = Column(String(64))
+    problem = Column(String(64))
     result = Column(Integer)  # Result
     time = Column(Integer)
     memory = Column(Integer)
@@ -58,3 +62,16 @@ class Solution(Base):
     code_length = Column(Integer)
 
     submission_time = Column(DateTime)  # like '2015-10-10 18:25:33'
+
+
+def create_table():
+    Base.metadata.create_all(engine)
+
+
+def get_session():
+    Session = sessionmaker(bind=engine)
+    return Session()
+
+
+if __name__ == '__main__':
+    create_table()
