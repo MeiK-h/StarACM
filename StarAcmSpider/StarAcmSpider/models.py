@@ -4,7 +4,8 @@ from sqlalchemy import Column, Date, DateTime, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine('mysql+mysqldb://root:123456@localhost/test?charset=utf8')
+engine = create_engine(
+    'mysql+mysqldb://root:123456@localhost/test?charset=utf8')
 
 Base = declarative_base()
 
@@ -51,7 +52,8 @@ class Solution(Base):
     __tablename__ = 'solutions'
 
     source = Column(String(64), primary_key=True)
-    run_id = Column(String(64), primary_key=True)
+    run_id = Column(Integer, primary_key=True)
+    run_id_str = Column(String(64))
     username = Column(String(64), index=True)
 
     problem = Column(String(64))

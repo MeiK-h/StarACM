@@ -10,8 +10,7 @@ class StaracmspiderPipeline(object):
         solution = Solution(**item)
         try:
             self.session.add(solution)
+            self.session.commit()
         except:
             self.session.rollback()
-        finally:
-            self.session.commit()
         return item

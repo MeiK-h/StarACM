@@ -20,6 +20,7 @@ class SdutSpider(scrapy.Spider):
             item.pop('uid')
             item.pop('cid')
             item['run_id'] = item['runid']
+            item['run_id_str'] = str(item['runid'])
             item.pop('runid')
             item['username'] = item['user_name']
             item.pop('user_name')
