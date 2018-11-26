@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
-import scrapy
 import json
-from StarAcmSpider.models import Language, Result, get_session, Last
-from StarAcmSpider.pipelines import update_last
 from datetime import datetime
+
+import scrapy
+
+from StarAcmSpider.items import SolutionItem
+from StarAcmSpider.models import Language, Last, Result, get_session
+from StarAcmSpider.pipelines import update_last
 
 
 class SdutSpider(scrapy.Spider):
@@ -41,9 +44,11 @@ class SdutSpider(scrapy.Spider):
             item['submission_time'] = datetime.strptime(
                 item['submission_time'], '%Y-%m-%d %H:%M:%S')
 
+            solution = SolutionItem(**item)
+
             this_last = item['run_id']
             self.last = this_last
-            yield item
+            yield solution
 
         if this_last:
             yield scrapy.Request(url=f'https://acm.sdut.edu.cn/onlinejudge2/index.php/API/Solution?limit=1000&order=ASC&runid={this_last}&cmp=g')

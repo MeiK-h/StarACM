@@ -2,7 +2,15 @@
 import scrapy
 
 
-class StaracmspiderItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class SolutionItem(scrapy.Item):
+    source = scrapy.Field()
+    run_id = scrapy.Field()
+    run_id_str = scrapy.Field()
+    username = scrapy.Field()
+    problem = scrapy.Field()
+    result = scrapy.Field()
+    time = scrapy.Field()
+    memory = scrapy.Field()
+    language = scrapy.Field()
+    code_length = scrapy.Field()
+    submission_time = scrapy.Field()
