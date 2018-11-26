@@ -6,7 +6,7 @@ import scrapy
 
 from StarAcmSpider.items import SolutionItem
 from StarAcmSpider.models import Language, Last, Result, get_session
-from StarAcmSpider.pipelines import update_last
+from StarAcmSpider.db import update_last, session_commit
 
 
 class SdutSpider(scrapy.Spider):
@@ -56,6 +56,7 @@ class SdutSpider(scrapy.Spider):
     def closed(self, reason):
         self.logger.info(f'save last {self.last} to database')
         update_last(self.session, 'sdut', self.last)
+        session_commit(self.session)
 
 
 def conver_language(sdut_language):

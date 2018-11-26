@@ -8,6 +8,11 @@ NEWSPIDER_MODULE = 'StarAcmSpider.spiders'
 
 ROBOTSTXT_OBEY = False
 
+# MySQL 连接字符串
+MYSQL_CONNECT_STRING = 'mysql+mysqldb://root:123456@localhost/test?charset=utf8'
+# 规定每多少条数据 commit 一次
+SQL_COMMIT_COUNT = 10000
+
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 

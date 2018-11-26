@@ -4,8 +4,9 @@ from sqlalchemy import Column, Date, DateTime, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine(
-    'mysql+mysqldb://root:123456@localhost/test?charset=utf8')
+from StarAcmSpider.settings import MYSQL_CONNECT_STRING
+
+engine = create_engine(MYSQL_CONNECT_STRING)
 
 Base = declarative_base()
 

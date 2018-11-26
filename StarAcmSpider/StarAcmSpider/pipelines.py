@@ -1,28 +1,22 @@
 # -*- coding: utf-8 -*-
-from StarAcmSpider.models import get_session, Solution, Last
+from StarAcmSpider.db import session_commit
+from StarAcmSpider.models import Last, Solution, get_session
+from StarAcmSpider.settings import SQL_COMMIT_COUNT
 
 
 class StaracmspiderPipeline(object):
-    def __init__(self):
-        self.session = get_session()
+
+    def open_spider(self, spider):
+        self.count_dict = getattr(self, 'count_dict', {})
+        self.count_dict[spider.name] = 0
 
     def process_item(self, item, spider):
         solution = Solution(**item)
         try:
-            self.session.add(solution)
-            self.session.commit()
+            spider.session.add(solution)
+            if self.count_dict[spider.name] % SQL_COMMIT_COUNT == 0:
+                session_commit(spider.session)
+            self.count_dict[spider.name] += 1
         except:
-            self.session.rollback()
+            spider.session.rollback()
         return item
-
-
-def update_last(session, source, last, **kw):
-    if source == 'sdut':
-        sdut_last = session.query(Last).filter_by(source='sdut').all()
-        if sdut_last:
-            sdut_last = sdut_last[0]
-            sdut_last.last = last
-        else:
-            sdut_last = Last(source='sdut', last=last, extra='')
-        session.merge(sdut_last)
-        session.commit()
