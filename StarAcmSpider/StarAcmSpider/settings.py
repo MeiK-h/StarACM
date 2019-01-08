@@ -9,6 +9,8 @@
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
+LOG_LEVEL = 'INFO'
+
 BOT_NAME = 'StarAcmSpider'
 
 SPIDER_MODULES = ['StarAcmSpider.spiders']
@@ -16,7 +18,7 @@ NEWSPIDER_MODULE = 'StarAcmSpider.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = 'Sorry by StarAcmSpider (+https://github.com/MeiK-h/StarACM)'
+USER_AGENT = 'Sorry for trouble caused by StarAcmSpider (+https://github.com/MeiK-h/StarACM)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False

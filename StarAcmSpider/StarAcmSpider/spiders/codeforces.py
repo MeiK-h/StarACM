@@ -11,7 +11,8 @@ class CodeforcesSpider(scrapy.Spider):
     allowed_domains = ['codeforces.com']
 
     def start_requests(self):
-        # TODO: get user list by database
+        # TODO: 从数据库获得数据
+        # TODO: last 的值是最后一个已得出结果的提交的 id
         userlist = [
             {
                 'username': 'MeiK',
