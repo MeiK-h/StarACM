@@ -3,7 +3,7 @@ import json
 
 import scrapy
 
-from StarAcmSpider.db import mongo_db
+from StarAcmSpider.db import mongo_db, update_last
 from StarAcmSpider.items import StarAcmSpiderItem
 
 
@@ -12,7 +12,7 @@ class CodeforcesSpider(scrapy.Spider):
     allowed_domains = ['codeforces.com']
 
     def start_requests(self):
-        userlist = mongo_db.User.find()
+        userlist = mongo_db.User.find({'source': 'CodeForces'})
         for user in userlist:
             yield scrapy.Request(
                 url=f'http://codeforces.com/api/user.status?handle={user["username"]}',
@@ -30,3 +30,6 @@ class CodeforcesSpider(scrapy.Spider):
             star_acm_item['run_id'] = str(item['id'])
             star_acm_item['data'] = item
             yield star_acm_item
+
+        # 更新 last
+        update_last(user['username'], 'CodeForces', data[0]['id'])
